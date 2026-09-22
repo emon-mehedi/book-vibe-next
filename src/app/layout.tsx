@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Saira } from "next/font/google";
 import "./globals.css";
+import Nav from "@/components/Nav";
+import BooksProvider from "@/contexts/BooksContext";
+import { Bounce, ToastContainer } from "react-toastify";
 
 
 const geistSans = Geist({
@@ -9,7 +12,7 @@ const geistSans = Geist({
 });
 
 //Google font imported
-const saira= Saira({
+const saira = Saira({
   subsets: ["latin"],
   display: 'swap'
 })
@@ -30,9 +33,25 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en" data-theme="light"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-            {/* google font used*/}
-      <body className={`min-h-full flex flex-col ${saira.className}`}> 
+      {/* google font used*/}
+      <body className={`min-h-full flex flex-col ${saira.className}`}>
+        <BooksProvider>
+          <Nav />
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            transition={Bounce}
+          />
           {children}
+        </BooksProvider>
       </body>
     </html>
   );

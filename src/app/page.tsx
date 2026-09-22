@@ -1,44 +1,53 @@
-'use client'
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import { FaRocket } from 'react-icons/fa6';
-import { FaCheckCircle } from 'react-icons/fa';
+import React from 'react';
+import hero from '@/assets/hero_img.jpg';
+import Image from 'next/image';
+import { IBook } from '@/types/AllTypes';
+import Card from '@/components/Card';
 
-export default function Home() {
-  const showToast = () => {
-    toast.success('DaisyUI, Icons and Toast working correctly!');
-  };
-
-  return (
-    <div className="min-h-screen bg-base-200 flex flex-col items-center justify-center p-5">
-      {/* Toast Container */}
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
-
-      <div className="card w-96 bg-base-100 shadow-xl p-6 text-center">
-        <h1 className="text-2xl font-bold flex items-center justify-center gap-2 mb-4">
-          <FaRocket className="text-primary" /> Welcome Mehedi
-        </h1>
-
-        <p className="text-gray-600 mb-6">
-          Tailwind CSS, DaisyUI, React Icons and React Toastify set up successfully
-        </p>
-
-        {/* DaisyUI Button with React Icon */}
-        <button onClick={showToast} className="btn btn-primary gap-2">
-          <FaCheckCircle /> Test Toast Notification
-        </button>
-      </div>
-    </div>
-  );
+export const booksPromise=async()=>{
+  try{
+    const res=await fetch('http://localhost:3000/booksData.json');
+    return res.json()
+  } catch(err){
+    console.log(err);
+  }
 }
+
+const Home = async() => {
+
+  const bookList =await booksPromise() as IBook[];
+  
+  return (
+    <>
+    <div className="hero my-10 container mx-auto bg-slate-100">
+
+      <div className="hero-content grid grid-cols-2 py-10">
+        <div className='space-y-4'>
+          <h1 className="text-5xl font-bold">Books to freshen up<br></br> your bookshelf</h1>
+          <p className="py-6">
+            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
+            quasi. In deleniti eaque aut repudiandae et a id nisi.
+          </p>
+          <button className="btn btn-primary">Get Started</button>
+        </div>
+        <Image
+          alt="Tailwind CSS hero component"
+          src={hero}
+          className="w-full rounded-lg shadow-2xl"
+        />
+      </div>
+
+    </div>
+
+
+    <h1 className='text-6xl text-center my-10'>Books</h1>
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 container mx-auto'>
+      {
+        bookList.slice(0,9).map(book=><Card key={book.bookId} book={book}/>)
+      }
+    </div>
+    </>
+  );
+};
+
+export default Home;
