@@ -10,6 +10,7 @@ export const booksPromise=async()=>{
     return res.json()
   } catch(err){
     console.log(err);
+    return []
   }
 }
 
