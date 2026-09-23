@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Book Vibe</string>
+    <string name="title_activity_main">Book Vibe</string>
+    <string name="package_name">com.emon.bookvibe</string>
+    <string name="custom_url_scheme">com.emon.bookvibe</string>
+</resources>
